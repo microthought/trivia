@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server/server.js"
+    "start": "nodemon server/server.js",
+    "postinstall": "bower install"
   },
   "author": "",
   "dependencies": {
@@ -19,6 +20,7 @@
     "bcrypt-promised": "*",
     "bluebird": "^3.4.6",
     "body-parser": "*",
+    "bower": "^1.8.0",
     "express": "^4.14.0",
     "express-jwt": "^5.1.0",
     "jsonwebtoken": "^7.2.1",

@@ -16,6 +16,7 @@ var Question = require('./app/question-model.js');
 var questionApi = 'https://www.opentdb.com/api.php?amount=10&difficulty=easy&type=multiple';
 
 var app = express();
+var PORT = process.env.PORT || 8080;
 
 //Set up socket.io
 var http = require('http').Server(app);
@@ -544,8 +545,8 @@ function parser (string) {
 
 
 
-http.listen(8080, function() {
-  console.log('Listening to port 8080');
+http.listen(PORT, function() {
+  console.log('Listening to port ', PORT);
 });
 
 
