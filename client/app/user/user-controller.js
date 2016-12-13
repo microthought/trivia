@@ -132,7 +132,7 @@ angular.module('app.user', ['app.services'])
         numCorrect: 0,
         questionsAttempted: 1,
         gameFinished: false,
-        timer: 5
+        timer: 9
       };
     }
 
