@@ -93,7 +93,7 @@ angular.module('app.user', ['app.services'])
 
 
   $scope.startingGame = function() {
-    var roundDuration = 5000;
+    var roundDuration = 9000;
     $scope.gameState = _resetGameState();
     var mathRandom = Math.random() * 1000;
     var timer = $interval(function() {
