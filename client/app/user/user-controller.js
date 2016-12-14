@@ -2,6 +2,9 @@ angular.module('app.user', ['app.services'])
 
 .controller('HomeController', function($scope, $location, UserInfo, $rootScope, $timeout, $interval) {
 
+  //length of round in seconds
+  var roundLength = 7;
+
   //Passing data from the UserInfo factory
   $scope.user = UserInfo.user;
   $scope.rooms = UserInfo.rooms;
@@ -93,12 +96,12 @@ angular.module('app.user', ['app.services'])
 
 
   $scope.startingGame = function() {
-    var roundDuration = 5000;
+    var roundDuration = roundLength * 1000;
     $scope.gameState = _resetGameState();
     var mathRandom = Math.random() * 1000;
     var timer = $interval(function() {
       if ($scope.gameState.timer === 1) {
-        $scope.gameState.timer = 5;
+        $scope.gameState.timer = roundLength;
       } else {
         $scope.gameState.timer -= 1;
       }
@@ -132,7 +135,7 @@ angular.module('app.user', ['app.services'])
         numCorrect: 0,
         questionsAttempted: 1,
         gameFinished: false,
-        timer: 5
+        timer: roundLength
       };
     }
 
