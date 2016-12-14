@@ -5,7 +5,9 @@
 		<h3>Players</h3>
 	  <div class="gamePlayer">
 		  <ul>
-		  	<li ng-repeat="name in currentRoom.users | orderBy: '-score'">{{name.username}}  score {{name.score}}
+		  	<li ng-repeat="user in currentRoom.users | orderBy: '-score'">
+		  	<span ng-click="" ng-class="user.ready ? 'ready' : 'not-ready' ">_</span>
+		  	{{user.username}}  score {{user.score}}
 		  	</li>
 		  </ul>
 
