@@ -12,6 +12,16 @@ angular.module('app.user', ['app.services'])
   $scope.activeUsers = [];
   $scope.newPlayer = {};
 
+  console.log("user is: ", $scope.user);
+  console.log("rooms is: ", $scope.rooms);
+  console.log("currentRoom is: ", $scope.currentRoom);
+  console.log("activeUsers is: ", $scope.activeUsers);
+  console.log("newPlayer is: ", $scope.newPlayer);
+
+
+
+
+
   $scope.goToRoom = function(roomName) {
     $scope.currentRoom = UserInfo.getRoom(roomName);
   };
@@ -30,6 +40,10 @@ angular.module('app.user', ['app.services'])
     var roomname = $scope.currentRoom.roomname;
     UserInfo.addNewPlayer(roomname, newPlayerUsername);
     $scope.clear();
+  };
+
+  $scope.playerReady = function() {
+    UserInfo.playerReady();
   };
 
   $scope.startGame = function() {
@@ -90,6 +104,25 @@ angular.module('app.user', ['app.services'])
   $scope.on('UpdateScores', function() {
     UserInfo.updateAllScores();
   });
+
+  function findIndexAtProp(arr, key, val) {
+    for(var i in arr) {
+      if(arr[i][key] === val) {
+        return i;
+      }
+    }
+    return null;
+  }
+
+  $scope.on('playerReady', function(username){
+    console.log(username," is ready!!!");
+    console.log('currentRoom', $scope.currentRoom);
+    let index = findIndexAtProp($scope.currentRoom.users, 'username', username);
+    $scope.currentRoom.users[index].ready = true;
+
+  })
+
+
 //////////////////////////////
 
 /////GAME HAMDLING/////

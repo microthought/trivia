@@ -114,6 +114,7 @@ io.on('connection', function(socket) {
     var currentRoom = socket.roomname;
     var newRoom = newRoomObj.roomname;
     socket.broadcast.to(currentRoom).emit('UserLeft', socket.username);
+    console.log('roomsX', roomsX);
     var index = roomsX[currentRoom].indexOf(socket.username);
     roomsX[currentRoom].splice(index, 1);
     socket.leave(currentRoom);
@@ -157,6 +158,10 @@ io.on('connection', function(socket) {
     console.log(room);
     io.sockets.in(room).emit('UpdateScores');
   });
+
+  socket.on('playerReady', function(x, username){
+    io.sockets.in(socket.roomname).emit('playerReady', username)
+  })
 
 
 });

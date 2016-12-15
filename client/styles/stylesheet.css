@@ -240,3 +240,20 @@ h3.ng-binding {
     font-weight: bold;
     font-size: 40px;
 }
+
+span.player-ready {
+    cursor: pointer;
+}
+
+span.not-ready {
+    background-color: red;
+    color: black;
+}
+
+span.ready {
+    background-color: green;
+    color: white;
+}
+
+
+

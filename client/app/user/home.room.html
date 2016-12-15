@@ -5,7 +5,10 @@
 		<h3>Players</h3>
 	  <div class="gamePlayer">
 		  <ul>
-		  	<li ng-repeat="name in currentRoom.users | orderBy: '-score'">{{name.username}}  score {{name.score}}
+		  	<li ng-repeat="user in currentRoom.users | orderBy: '-score'">
+		  	<span ng-show="!user.ready" class="not-ready">X</span>
+		  	<span ng-show="user.ready" class="ready">O</span>
+		  	{{user.username}}  score {{user.score}}
 		  	</li>
 		  </ul>
 
@@ -18,5 +21,7 @@
 	</div>
 
 
-	<button class="startGame btn" ui-sref="homeState.game" ng-click="startGame()">Start Game</button> <br>
+	<button class="startGame btn" ui-sref="homeState.game" ng-click="startGame()">Start Game</button>
+	<button class="player-ready btn" ng-click="playerReady()">Ready!</button>
+	<br>
 </div>

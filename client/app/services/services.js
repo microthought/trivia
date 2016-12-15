@@ -59,6 +59,12 @@ angular.module('app.services', [])
       });
     },
 
+    playerReady: function() { //// BRAAAAAAAACK!!!!
+      var context = this;
+      socket.emit('playerReady', context.currentRoom, context.user.username);
+
+    },
+
     startNewGame: function() {
       return $http({
         method: 'GET',
