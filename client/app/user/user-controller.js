@@ -45,12 +45,26 @@ angular.module('app.user', ['app.services'])
 
   $scope.playerReady = function() {
     UserInfo.playerReady();
+    $scope.weReady();
   };
 
   $scope.startGame = function() {
     UserInfo.startNewGame();
     console.log($scope.currentRoom);
   };
+
+  $scope.weReady = function(){
+    //Check to see if ALL players are ready
+    var allReady = $scope.currentRoom.users.reduce((acc, cur) =>  (!!cur.ready || cur.username === $scope.user.username) && acc, true);
+
+    console.log("YO! Are we ready??? ", allReady)
+    if(allReady) {
+      $scope.startGame();
+    }
+
+  };
+
+
 
   $scope.on = UserInfo.on;
   $scope.removeActiveUser = UserInfo.removeActiveUser
