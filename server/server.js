@@ -167,7 +167,11 @@ io.on('connection', function(socket) {
   });
 
   socket.on('playerReady', function(x, username){
-    io.sockets.in(socket.roomname).emit('playerReady', username)
+    io.sockets.in(socket.roomname).emit('playerReady', username);
+  });
+
+  socket.on('correctAnswer', function(username, roomname) {
+    io.sockets.in(socket.roomname).emit('correctAnswer', username);
   })
 
 

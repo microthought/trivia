@@ -114,6 +114,10 @@ angular.module('app.services', [])
       });
     },
 
+    correctAnswer: function(username, roomname) {
+      socket.emit('correctAnswer', username, roomname);
+    },
+
     updateAllScores: function() {
       var context = this;
       return $http({
