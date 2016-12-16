@@ -159,7 +159,7 @@ angular.module('app.user', ['app.services'])
 
     $scope.on('correctAnswer', function(username) {
       if ($scope.user.username !== username) {
-        _someoneElseGotCorrectAnswer();
+        _someoneElseGotCorrectAnswer(username);
       }
     });
 
@@ -170,6 +170,7 @@ angular.module('app.user', ['app.services'])
     function handleRoundEnd(callback) {
       $scope.gameState.questionsAttempted++;
       $scope.gameState.isCorrect = 'pending';
+      $scope.gameState.gotGanked = false;
       callback();
     }
 
@@ -195,8 +196,8 @@ angular.module('app.user', ['app.services'])
       };
     }
 
-    function _someoneElseGotCorrectAnswer() {
-      console.log('You got jacked, SON!');
+    function _someoneElseGotCorrectAnswer(username) {
+      $scope.gameState.gotGanked = username;
     }
 
     function _startTimer(roundDuration) {
