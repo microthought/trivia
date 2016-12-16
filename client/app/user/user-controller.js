@@ -28,6 +28,7 @@ angular.module('app.user', ['app.services'])
 
   $scope.addRoom = function(newRoomName) {
     UserInfo.addNewRoom(newRoomName);
+    $scope.activeUsers.push($scope.user.username);
     $scope.clear();
   };
 
@@ -115,6 +116,7 @@ angular.module('app.user', ['app.services'])
   }
 
   $scope.on('playerReady', function(username){
+    $scope.currentRoom = UserInfo.currentRoom;
     console.log(username," is ready!!!");
     console.log('currentRoom', $scope.currentRoom);
     let index = findIndexAtProp($scope.currentRoom.users, 'username', username);

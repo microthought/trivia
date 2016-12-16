@@ -140,6 +140,13 @@ io.on('connection', function(socket) {
     socket.roomname = newRoomName;
     socket.join(socket.roomname);
     console.log('socket.roomname: ', socket.roomname);
+
+    if (roomsX[newRoomName] === undefined) {
+      roomsX[newRoomName] = [socket.username];
+    } else {
+      roomsX[newRoomName].push(socket.username);
+    }
+
   });
 
   // function updateActiveUsers() {
