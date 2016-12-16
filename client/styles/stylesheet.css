@@ -15,6 +15,28 @@ a {
     text-decoration: none !important;
 }
 
+td,
+th {
+    width: 100px;
+    padding: 5px;
+    text-align: center;
+}
+
+td {
+    border-top: 1px solid black;
+}
+
+th {
+    font-size: 1.5em;
+}
+
+table {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 30px;
+    background-color: #e5e3b7;
+}
+
 button {
 	margin-top: 10px;
 }
@@ -256,8 +278,10 @@ span.not-ready {
     color: black;
 }
 
-span.ready {
+div.ready {
     background-color: green;
     color: white;
+    border-radius:10px;
+    width:auto;
 }
 
