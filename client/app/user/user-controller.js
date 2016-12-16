@@ -129,6 +129,7 @@ angular.module('app.user', ['app.services'])
     return null;
   }
 
+
   $scope.on('playerReady', function(username){
     $scope.currentRoom = UserInfo.currentRoom;
     console.log(username," is ready!!!");
@@ -136,7 +137,7 @@ angular.module('app.user', ['app.services'])
     let index = findIndexAtProp($scope.currentRoom.users, 'username', username);
     $scope.currentRoom.users[index].ready = true;
 
-  })
+  });
 
 
 //////////////////////////////
@@ -156,6 +157,12 @@ angular.module('app.user', ['app.services'])
       }
     }, 1000);
 
+    $scope.on('correctAnswer', function(username) {
+      if ($scope.user.username !== username) {
+        _someoneElseGotCorrectAnswer(username);
+      }
+    });
+
 //have to be nested, in order to get the questionSet first
     // UserInfo.playGame(handleRoundEnd, handleGameEnd);
 
@@ -163,6 +170,7 @@ angular.module('app.user', ['app.services'])
     function handleRoundEnd(callback) {
       $scope.gameState.questionsAttempted++;
       $scope.gameState.isCorrect = 'pending';
+      $scope.gameState.gotGanked = false;
       callback();
     }
 
@@ -188,6 +196,10 @@ angular.module('app.user', ['app.services'])
       };
     }
 
+    function _someoneElseGotCorrectAnswer(username) {
+      $scope.gameState.gotGanked = username;
+    }
+
     function _startTimer(roundDuration) {
       $timeout(function() {
         handleRoundEnd(gameStart);
@@ -207,6 +219,7 @@ angular.module('app.user', ['app.services'])
       }
     }
     gameStart();
+    _someoneElseGotCorrectAnswer();
   };
 
 //when user submits an answer, checks to see if it is the right answer.
@@ -218,6 +231,7 @@ angular.module('app.user', ['app.services'])
     if (isCorrect) {
       $scope.gameState.numCorrect++;
       $scope.gameState.isCorrect = 'yes';
+      UserInfo.correctAnswer($scope.user.username, $scope.currentRoom.roomname);
     } else {
       $scope.gameState.isCorrect = 'no';
     }

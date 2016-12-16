@@ -15,7 +15,9 @@
       </input>
     </form><br>
   </div>
-
+  <div ng-if="gameState.gotGanked">
+    <div class="incorrect"> You got GANKED by {{gameState.gotGanked}}! </div>
+  </div>
     <div  ng-if="gameState.isCorrect === 'yes' && gameState.gameFinished === false" class="feedback-correct">
       <div class="correct">You are CORRECT!</div>
     </div>
