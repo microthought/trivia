@@ -1,5 +1,14 @@
 angular.module('app', ['app.auth', 'app.user', 'app.profile', 'ngFileUpload', 'ui.router'])
 
+.controller('appController', function($scope, $location, $cookies){
+  $scope.$on('$stateChangeStart', function(event, newUrl){
+    console.log($cookies.get('username'));
+    if(newUrl.requireAuth && ($cookies.get('username') === '' || $cookies.get('username') === undefined)){
+      alert("Must Login First!");
+      $location.path('/signin');
+    }
+  })
+})
 
 .config(function($stateProvider, $httpProvider) {
 
@@ -18,22 +27,26 @@ angular.module('app', ['app.auth', 'app.user', 'app.profile', 'ngFileUpload', 'u
     url: '/home',
     abstract: true,
     templateUrl: 'app/user/home.html',
-    controller: 'HomeController'
+    controller: 'HomeController',
+    requireAuth: true
   })
   .state('homeState.profile', {
     url: '/profile',
     templateUrl: 'app/user/home.profile.html',
-    controller: 'ProfileController'
+    controller: 'ProfileController',
+    requireAuth: true
   })
   .state('homeState.room', {
     url: '/room/:roomname',
     templateUrl: 'app/user/home.room.html',
-    controller: 'HomeController'
+    controller: 'HomeController',
+    requireAuth: true
   })
   .state('homeState.game', {
     url: '/game',
     templateUrl: 'app/user/home.game.html',
-    controller: 'HomeController'
+    controller: 'HomeController',
+    requireAuth: true
   })
   .state('otherwise', {
     url: '*path',
@@ -43,7 +56,12 @@ angular.module('app', ['app.auth', 'app.user', 'app.profile', 'ngFileUpload', 'u
 
   // $httpProvider.interceptors.push('AttachTokens');
 
-});
+})
+
+// Workaround for "unhandled rejection" inherent to Angular 1.6.0 with ui-router
+.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+}]);;
 // .factory('AttachTokens', function($window) {
 
 //   var attach = {

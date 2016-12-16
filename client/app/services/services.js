@@ -1,7 +1,9 @@
 // ADD SERVICES AND FACTORIES HERE
 
-angular.module('app.services', [])
-.factory('UserInfo', function($http, $rootScope, $location, $timeout) {
+angular.module('app.services', [
+  'ngCookies'
+])
+.factory('UserInfo', function($http, $rootScope, $location, $timeout, $cookies) {
   var socket = io.connect();
 
   return {
@@ -167,6 +169,7 @@ angular.module('app.services', [])
         if (!resp.data) {
           $location.path('/signin');
         } else {
+          $cookies.put('username', resp.data.user.username);
           context.user.username = resp.data.user.username;
           context.user.avatar = resp.data.user.avatar;
           context.rooms = resp.data.rooms;
@@ -192,6 +195,7 @@ angular.module('app.services', [])
         if (!resp.data) {
           $location.path('/signup');
         } else {
+          $cookies.put('username', resp.data.user.username);
           context.user.username = resp.data.user.username;
           context.user.avatar = resp.data.user.avatar;
           context.user.score = resp.data.user.score;
@@ -207,11 +211,3 @@ angular.module('app.services', [])
 
   };
 });
-
-
-
-
-
-
-
-

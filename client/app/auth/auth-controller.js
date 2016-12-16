@@ -1,9 +1,12 @@
 angular.module('app.auth', ['app.services'])
 
 
-.controller('AuthController', function($scope, $window, UserInfo, $location) {
+.controller('AuthController', function($scope, $window, UserInfo, $location, $cookies) {
 
   $scope.user = {};
+
+  //Hacky test for authentication without logout button
+  $cookies.put('username', '');
 
   $scope.signIn = function() {
     UserInfo.signIn($scope.user);
