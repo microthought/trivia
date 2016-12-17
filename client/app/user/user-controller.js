@@ -1,6 +1,6 @@
 angular.module('app.user', ['app.services'])
 
-.controller('HomeController', function($scope, $location, UserInfo, $rootScope, $timeout, $interval) {
+.controller('HomeController', function($scope, $location, UserInfo, $rootScope, $timeout, $interval, $cookies) {
 
   //length of round in seconds
   var roundLength = 7;
@@ -227,7 +227,12 @@ angular.module('app.user', ['app.services'])
     }
 
     function _someoneElseGotCorrectAnswer(username) {
+      $scope.fireworks = {"background" : "url('../../styles/giphy.gif')"};
       $scope.gameState.gotGanked = username;
+      setTimeout(function(){
+        $scope.gameState.gotGanked = false;
+        $scope.fireworks = {"background" : ""};
+      }, 1000);
       $scope.gameState.isCorrect = 'ganked';
     }
 
@@ -275,6 +280,12 @@ angular.module('app.user', ['app.services'])
     }
 
     $scope.clear();
+  };
+
+  $scope.signOut = function(){
+    console.log("I am getting called");
+    $cookies.put('username', '');
+    $location.path('/signin');
   };
 
 ///////////////////////

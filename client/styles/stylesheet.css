@@ -264,7 +264,7 @@ a.ng-binding {
     font-weight: bold;
 }
 
-input.add-room, input.new-room {
+input.add-room, input.new-room, .signout {
     color: black;
 }
 
@@ -292,4 +292,3 @@ div.ready {
     border-radius:10px;
     width:auto;
 }
-
