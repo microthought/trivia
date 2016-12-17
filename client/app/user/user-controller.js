@@ -198,6 +198,7 @@ angular.module('app.user', ['app.services'])
       $scope.gameState.isCorrect = 'pending';
       $scope.gameState.gotGanked = false;
       $scope.gameState.othersWhoScrewedUp = [];
+      $scope.gameState.index = false;
       callback();
     }
 
@@ -272,8 +273,6 @@ angular.module('app.user', ['app.services'])
       $scope.gameState.isCorrect = 'no';
       UserInfo.incorrectAnswer($scope.user.usernamer, $scope.currentRoom.roomname);
     }
-
-    document.getElementsByClassName("answerChoice").checked=false;
 
     $scope.clear();
   };
