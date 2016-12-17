@@ -78,6 +78,11 @@ var readyX = {
   'Profile': [],
   'Lobby': []
 }
+
+  var debouncedStartGame = debounce(function(io, socket, allQuestions){
+    console.log('sendQuestions emitted')
+    io.sockets.in(socket.roomname).emit('SendQuestions', allQuestions);
+  }, 3000);
 //SOCKET.IO MANAGEMENT//
 
 // SEVDA VERSION //
@@ -171,7 +176,8 @@ io.on('connection', function(socket) {
   });
 
   socket.on('startNewGame', function(allQuestions) {
-    io.sockets.in(socket.roomname).emit('SendQuestions', allQuestions);
+    console.log('startNewGame called')
+    debouncedStartGame(io, socket, allQuestions);
   });
 
   socket.on('updateScores', function(room) {
@@ -584,5 +590,18 @@ http.listen(PORT, function() {
 });
 
 
-
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
 
