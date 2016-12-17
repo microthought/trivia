@@ -228,6 +228,8 @@ angular.module('app.user', ['app.services'])
 
     function _someoneElseGotCorrectAnswer(username) {
       $scope.gameState.gotGanked = username;
+      $scope.background = 'url("Pictures/giphy.gif")';
+      setTimeout(function(){$scope.gameState.gotGanked = false}, 1000);
       $scope.gameState.isCorrect = 'ganked';
     }
 
