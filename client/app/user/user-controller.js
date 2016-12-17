@@ -23,6 +23,7 @@ angular.module('app.user', ['app.services'])
 
 
   $scope.goToRoom = function(roomName) {
+    $scope.wipeReady($scope.user.username);
     $scope.currentRoom = UserInfo.getRoom(roomName);
   };
 
@@ -64,6 +65,18 @@ angular.module('app.user', ['app.services'])
 
   };
 
+  $scope.wipeReady = function(username){
+    if(username){
+      let index = findIndexAtProp($scope.currentRoom.users, 'username', username);
+      console.log("____Ze index is! ", index);
+      if(index){
+        $scope.currentRoom.users[index].ready = false;
+      }
+    } else {
+    $scope.currentRoom.users.forEach(user=> user.ready = false);
+    }
+  };
+
 
 
   $scope.on = UserInfo.on;
@@ -99,6 +112,8 @@ angular.module('app.user', ['app.services'])
     console.log(username, ' has left the room');
     var index = $scope.activeUsers.indexOf(username);
     $scope.activeUsers.splice(index, 1);
+
+    $scope.wipeReady(username);
     // $scope.removeActiveUser(username);
   });
 
@@ -146,6 +161,7 @@ angular.module('app.user', ['app.services'])
 
 
   $scope.startingGame = function() {
+    $scope.wipeReady();
     var roundDuration = roundLength * 1000;
     $scope.gameState = _resetGameState();
     var mathRandom = Math.random() * 1000;

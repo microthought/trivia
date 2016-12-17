@@ -2,15 +2,35 @@
 	<h3>{{currentRoom.roomname}}</h3><hr>
 
 	<div class="players">
-		<h3>Players</h3>
+		<h3>Top Scores</h3>
 	  <div class="gamePlayer">
-		  <ul>
+		  <table>
+				<tr>
+					<th>Player</th>
+					<th>Score</th>
+					<th>Status</th>
+				</tr>
+				<tr ng-repeat="user in currentRoom.users | orderBy: '-score'">
+					<td>{{user.username}}</td>
+					<td>{{user.score}}</td>
+					<td>
+						<div ng-show="!user.ready" class="not-ready">waiting</div>
+		  			<div ng-show="user.ready" class="ready">READY!</div>
+					</td>
+				</tr>
+			</table>
+			
+			
+			
+			
+			
+			<!--<ul>
 		  	<li ng-repeat="user in currentRoom.users | orderBy: '-score'">
 		  	<span ng-show="!user.ready" class="not-ready">X</span>
 		  	<span ng-show="user.ready" class="ready">O</span>
 		  	{{user.username}}  score {{user.score}}
 		  	</li>
-		  </ul>
+		  </ul>-->
 
 
 		  <form ng-hide="currentRoom.roomname === 'Lobby'" name="newPlayer" ng-submit="addPlayer(newPlayer.username)">
