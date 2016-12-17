@@ -64,7 +64,6 @@ angular.module('app.services', [
     playerReady: function() { //// BRAAAAAAAACK!!!!
       var context = this;
       socket.emit('playerReady', context.currentRoom, context.user.username);
-
     },
 
     startNewGame: function() {
@@ -116,8 +115,12 @@ angular.module('app.services', [
       });
     },
 
-    correctAnswer: function(username, roomname) {
-      socket.emit('correctAnswer', username, roomname);
+    correctAnswer: function(username) {
+      socket.emit('correctAnswer', username);
+    },
+
+    incorrectAnswer: function(username, roomname) {
+      socket.emit('incorrectAnswer', username, roomname);
     },
 
     updateAllScores: function() {
