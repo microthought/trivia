@@ -19,10 +19,6 @@ angular.module('app.user', ['app.services'])
   console.log("activeUsers is: ", $scope.activeUsers);
   console.log("newPlayer is: ", $scope.newPlayer);
 
-
-
-
-
   $scope.goToRoom = function(roomName) {
     $scope.wipeReady($scope.user.username);
     $scope.currentRoom = UserInfo.getRoom(roomName);
@@ -284,14 +280,3 @@ angular.module('app.user', ['app.services'])
 ///////////////////////
 
 });
-
-
-
-
-
-
-
-
-
-
-

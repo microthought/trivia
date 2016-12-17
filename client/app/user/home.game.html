@@ -10,7 +10,7 @@
     <label><strong>Answers: </strong></label>
 
     <form ng-repeat="choice in questionSet[gameState.questionsAttempted-1].answerChoices track by $index">
-      <input class="answerChoice" type="radio" ng-model="gameState.index" ng-value="$index">
+      <input class="answerChoice" type="radio" ng-model="gameState.index" ng-value="$index" ng-change='submitAnswer()'>
         <label for="answerChoice">{{choice}}</label>
       </input>
     </form><br>
@@ -27,7 +27,7 @@
     <div ng-if="gameState.isCorrect === 'pending' && gameState.gameFinished === false" class="feedback-pending">
       Pick an answer SLOWPOKE!
     </div>
-    <button ng-if="gameState.gameFinished === false" class="btn btn-primary" type="submit" ng-click="submitAnswer()" ng-disabled="gameState.isCorrect !== 'pending'">Submit answer</button>
+    <!-- <button ng-if="gameState.gameFinished === false" class="btn btn-primary" type="submit" ng-click="submitAnswer()" ng-disabled="gameState.isCorrect !== 'pending'">Submit answer</button> -->
     </br></br>
     <div ng-if="gameState.gameFinished" class="endgame-message">
       You got {{gameState.numCorrect}}/{{gameState.questionsAttempted - 1}} correct <br><br>
