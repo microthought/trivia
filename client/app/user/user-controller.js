@@ -19,10 +19,6 @@ angular.module('app.user', ['app.services'])
   console.log("activeUsers is: ", $scope.activeUsers);
   console.log("newPlayer is: ", $scope.newPlayer);
 
-
-
-
-
   $scope.goToRoom = function(roomName) {
     $scope.wipeReady($scope.user.username);
     $scope.currentRoom = UserInfo.getRoom(roomName);
@@ -202,6 +198,7 @@ angular.module('app.user', ['app.services'])
       $scope.gameState.isCorrect = 'pending';
       $scope.gameState.gotGanked = false;
       $scope.gameState.othersWhoScrewedUp = [];
+      $scope.gameState.index = false;
       callback();
     }
 
@@ -277,21 +274,9 @@ angular.module('app.user', ['app.services'])
       UserInfo.incorrectAnswer($scope.user.usernamer, $scope.currentRoom.roomname);
     }
 
-
     $scope.clear();
   };
 
 ///////////////////////
 
 });
-
-
-
-
-
-
-
-
-
-
-
