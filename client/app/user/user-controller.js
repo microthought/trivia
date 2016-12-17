@@ -273,6 +273,7 @@ angular.module('app.user', ['app.services'])
       UserInfo.incorrectAnswer($scope.user.usernamer, $scope.currentRoom.roomname);
     }
 
+    document.getElementsByClassName("answerChoice").checked=false;
 
     $scope.clear();
   };
