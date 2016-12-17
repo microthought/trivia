@@ -74,6 +74,10 @@ var roomsX = {
   'Profile': [],
   'Lobby': []
 };
+var readyX = {
+  'Profile': [],
+  'Lobby': []
+}
 //SOCKET.IO MANAGEMENT//
 
 // SEVDA VERSION //
@@ -114,9 +118,15 @@ io.on('connection', function(socket) {
     var currentRoom = socket.roomname;
     var newRoom = newRoomObj.roomname;
     socket.broadcast.to(currentRoom).emit('UserLeft', socket.username);
+    console.log('newRoomObj', newRoomObj);
     console.log('roomsX', roomsX);
-    var index = roomsX[currentRoom].indexOf(socket.username);
-    roomsX[currentRoom].splice(index, 1);
+    console.log('currentRoom', currentRoom);
+    if (!roomsX[currentRoom]) {
+      roomsX[currentRoom] = [];
+    } else if (roomsX[currentRoom].indexOf(socket.username) !== -1) {
+      var index = roomsX[currentRoom].indexOf(socket.username);
+      roomsX[currentRoom].splice(index, 1);
+    }
     socket.leave(currentRoom);
     socket.roomname = newRoom;
     if (roomsX[newRoom] === undefined) {
@@ -125,6 +135,7 @@ io.on('connection', function(socket) {
       roomsX[newRoom].push(socket.username);
     }
     socket.join(newRoom);
+    console.log('new roomX: ', roomsX[newRoom])
     console.log('newroom: ', newRoom);
     console.log('socket.roomname: ', socket.roomname);
 
@@ -146,6 +157,8 @@ io.on('connection', function(socket) {
     } else {
       roomsX[newRoomName].push(socket.username);
     }
+    console.log('new roomX: ', roomsX[newRoomName])
+    
 
   });
 
@@ -167,11 +180,16 @@ io.on('connection', function(socket) {
   });
 
   socket.on('playerReady', function(x, username){
+    roomsX[socket.roomname]
     io.sockets.in(socket.roomname).emit('playerReady', username);
   });
 
   socket.on('correctAnswer', function(username, roomname) {
     io.sockets.in(socket.roomname).emit('correctAnswer', username);
+  });
+
+  socket.on('incorrectAnswer', function(username) {
+    io.sockets.in(socket.roomname).emit('incorrectAnswer', socket.username);
   })
 
 

@@ -12,6 +12,7 @@ angular.module('app.user', ['app.services'])
   $scope.activeUsers = [];
   $scope.newPlayer = {};
 
+
   console.log("user is: ", $scope.user);
   console.log("rooms is: ", $scope.rooms);
   console.log("currentRoom is: ", $scope.currentRoom);
@@ -25,11 +26,17 @@ angular.module('app.user', ['app.services'])
   $scope.goToRoom = function(roomName) {
     $scope.wipeReady($scope.user.username);
     $scope.currentRoom = UserInfo.getRoom(roomName);
+    if (timer) {
+      $interval.cancel(timer);
+    }
   };
 
   $scope.addRoom = function(newRoomName) {
     UserInfo.addNewRoom(newRoomName);
     $scope.activeUsers.push($scope.user.username);
+    if (timer) {
+      $interval.cancel(timer);
+    }
     $scope.clear();
   };
 
@@ -56,7 +63,7 @@ angular.module('app.user', ['app.services'])
 
   $scope.weReady = function(){
     //Check to see if ALL players are ready
-    var allReady = $scope.currentRoom.users.reduce((acc, cur) =>  (!!cur.ready || cur.username === $scope.user.username) && acc, true);
+    var allReady = $scope.currentRoom.users.every(user => user.ready);
 
     console.log("YO! Are we ready??? ", allReady)
     if(allReady) {
@@ -151,6 +158,7 @@ angular.module('app.user', ['app.services'])
     console.log('currentRoom', $scope.currentRoom);
     let index = findIndexAtProp($scope.currentRoom.users, 'username', username);
     $scope.currentRoom.users[index].ready = true;
+    $scope.weReady();
 
   });
 
@@ -161,16 +169,15 @@ angular.module('app.user', ['app.services'])
 
 
   $scope.startingGame = function() {
+    if ($scope.gameState) {
+      return;
+    }
     $scope.wipeReady();
     var roundDuration = roundLength * 1000;
     $scope.gameState = _resetGameState();
     var mathRandom = Math.random() * 1000;
     var timer = $interval(function() {
-      if ($scope.gameState.timer === 1) {
-        $scope.gameState.timer = roundLength;
-      } else {
         $scope.gameState.timer -= 1;
-      }
     }, 1000);
 
     $scope.on('correctAnswer', function(username) {
@@ -179,14 +186,22 @@ angular.module('app.user', ['app.services'])
       }
     });
 
+    $scope.on('incorrectAnswer', function(username) {
+      if ($scope.user.username !== username) {
+        _someoneElseScrewedUp(username);
+      }
+    });
+
 //have to be nested, in order to get the questionSet first
     // UserInfo.playGame(handleRoundEnd, handleGameEnd);
 
 //function is called at the end of every round
     function handleRoundEnd(callback) {
+      $scope.gameState.timer = roundLength;
       $scope.gameState.questionsAttempted++;
       $scope.gameState.isCorrect = 'pending';
       $scope.gameState.gotGanked = false;
+      $scope.gameState.othersWhoScrewedUp = [];
       callback();
     }
 
@@ -206,6 +221,8 @@ angular.module('app.user', ['app.services'])
         index: -1,
         isCorrect: 'pending',
         numCorrect: 0,
+        gotGanked: false,
+        othersWhoScrewedUp: [],
         questionsAttempted: 1,
         gameFinished: false,
         timer: roundLength
@@ -214,6 +231,14 @@ angular.module('app.user', ['app.services'])
 
     function _someoneElseGotCorrectAnswer(username) {
       $scope.gameState.gotGanked = username;
+      $scope.gameState.isCorrect = 'ganked';
+    }
+
+    function _someoneElseScrewedUp(username) {
+      if ($scope.user.username) {
+        $scope.gameState.othersWhoScrewedUp.push(username);
+        console.log($scope.gameState.othersWhoScrewedUp);
+      }
     }
 
     function _startTimer(roundDuration) {
@@ -235,7 +260,6 @@ angular.module('app.user', ['app.services'])
       }
     }
     gameStart();
-    _someoneElseGotCorrectAnswer();
   };
 
 //when user submits an answer, checks to see if it is the right answer.
@@ -250,6 +274,7 @@ angular.module('app.user', ['app.services'])
       UserInfo.correctAnswer($scope.user.username, $scope.currentRoom.roomname);
     } else {
       $scope.gameState.isCorrect = 'no';
+      UserInfo.incorrectAnswer($scope.user.usernamer, $scope.currentRoom.roomname);
     }
 
 

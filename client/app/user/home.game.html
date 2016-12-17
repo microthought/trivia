@@ -33,6 +33,9 @@
       You got {{gameState.numCorrect}}/{{gameState.questionsAttempted - 1}} correct <br><br>
       <button ui-sref="^.room({roomname: currentRoom.roomname})" class="btn btn-primary">Back to {{currentRoom.roomname}}</button>
     </div>
+    <div ng-if="gameState.othersWhoScrewedUp.length" class="correct">
+      These fools done screwed up: <div ng-repeat="user in gameState.othersWhoScrewedUp">user: {{user}}</div>
+    </div>
 
 
 </div>
