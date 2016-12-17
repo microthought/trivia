@@ -34,14 +34,14 @@
 
 
 		  <form ng-hide="currentRoom.roomname === 'Lobby'" name="newPlayer" ng-submit="addPlayer(newPlayer.username)">
-		  	<input name="newPlayerUsername" type="text" ng-model="newPlayer.username"/>
+		  	<input class="add-player" name="newPlayerUsername" type="text" ng-model="newPlayer.username" placeholder="username"/>
 		  	<input type="submit" class="btn" value="Add Player"/>
 		  </form>
 		</div>
 	</div>
 
 
-	<button class="startGame btn" ui-sref="homeState.game" ng-click="startGame()">Start Game</button>
-	<button class="player-ready btn" ng-click="playerReady()">Ready!</button>
+	<!--<button class="startGame btn" ui-sref="homeState.game" ng-click="startGame()">Start Game</button>-->
+	<button class="player-ready btn btn-primary" ng-click="playerReady()">Ready!</button>
 	<br>
 </div>

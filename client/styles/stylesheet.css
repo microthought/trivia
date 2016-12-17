@@ -40,6 +40,10 @@ table {
 button {
 	margin-top: 10px;
 }
+
+input {
+    padding: 3px 10px;
+}
 /* Toggle Styles */
 
 #wrapper {
@@ -269,8 +273,12 @@ h3.ng-binding {
     font-size: 40px;
 }
 
-span.player-ready {
-    cursor: pointer;
+.player-ready {
+    margin: 30px;
+}
+
+input.add-player {
+    margin-left: 30px;
 }
 
 span.not-ready {
